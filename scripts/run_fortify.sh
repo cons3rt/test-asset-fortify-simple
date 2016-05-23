@@ -44,7 +44,7 @@ function fortify() {
     printenv > ${logDir}environment_out.log
 
     echo -n `date "+%D %H:%M:%S"`
-    echo " -- Beginning fortify scan"
+    echo " : Beginning fortify scan"
 
     # Note: variables can not be used inside of a Fortify SCA cmd line options file, so replace_me tags are used instead
     echo "-- Replacing tags in build file: ${buildFile}"
@@ -67,9 +67,12 @@ function fortify() {
     run_and_check_status "${sourceanalyzer}" -b "${buildId}" -show-files > "${logDir}${buildId}-showfiles.log"
     run_and_check_status "${sourceanalyzer}" @"${scanFile}"
     run_and_check_status "${ReportGenerator}" -format "pdf" -f "${reportDir}${buildId}-results.pdf" -source "${reportDir}${buildId}-scan.fpr"
+
+    cp "${scanFile}" "${logDir}${scanFile}.log"
+    cp "${buildFile}" "${logDir}${buildFile}.log" 
     
     echo -n `date "+%D %H:%M:%S"`
-    echo " Successfully completed fortify scan: "
+    echo " : Successfully completed fortify scan"
 }
 
-fortify
+fortify > "${logDir}run.log"
