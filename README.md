@@ -12,10 +12,15 @@
 	<li><a href="https://kb.cons3rt.com/articles/fortify-scans">Follow these instructions</a> to build up a Fortify Test Deployment to scan your source code!</li>
 </ol>
 
+<h2>Licensing</h2>
+
+<p>The Fortify Elastic Test Tool works as &quot;Bring Your Own License&quot;. &nbsp;To apply your license in this sample asset, simply replace the &quot;scripts/fortify.license&quot; file with your Fortify License.</p>
+
 <h2>Customize your Own</h2>
 
 <ol>
 	<li>git clone&nbsp;https://github.com/cons3rt/test-asset-fortify-simple.git</li>
+	<li>Replace the scripts/fortify.license file with <em><strong>your&nbsp;Fortify License file</strong></em>&nbsp;</li>
 	<li>Edit the asset.properties file as needed (e.g. name, description, etc.)</li>
 	<li>In the scripts directory, edit the <strong>build</strong> and <strong>scan</strong> files to customize the type of scan&nbsp;</li>
 	<li><a href="https://kb.cons3rt.com/articles/fortify-scans">Follow these instructions</a>&nbsp;to build up a Fortify Test Deployment to scan your source code!</li>
@@ -35,6 +40,7 @@
 		<li><strong>executable </strong>script: main script that contains any user&nbsp;logic and defines fortify flow (Ex. run_fortify.sh in this case)</li>
 		<li><strong>build </strong>file: contains command line instructions for a fortify build (Ex. build)</li>
 		<li><strong>scan </strong>file: contains command line instructions for a fortify scan (Ex. scan)</li>
+		<li><strong>fortify.license</strong> file: contains the Fortify License</li>
 	</ul>
 	</li>
 	<li><strong>LICENSE&nbsp;</strong>file: Use as desired, not currently required for a fortify scan</li>
