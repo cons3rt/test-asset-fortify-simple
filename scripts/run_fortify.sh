@@ -26,7 +26,7 @@ function parse_deployment_property() {
     local property=$1
     local default=$2
 
-    local retval=$( grep "${property}" ${deploymentProperties} | sed s/.*=// )
+    local retval=$( grep "${property}" ${combinedPropertiesFile} | sed s/.*=// )
 
     if [ -z "${retval}" ]; then
         if [ -z "${default}" ]; then

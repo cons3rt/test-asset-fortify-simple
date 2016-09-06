@@ -1,0 +1,16 @@
+[
+	{
+		"type":"GIT",
+		"url":"ssh://git@userinfo.git"
+	},
+	{
+                "type":"SVN",
+                "url":"https://userinfo.git",
+		"branch":"master",
+		"credentials": {
+			"type":"USER_PASS",
+			"username":"foo",
+			"password":"bar"
+		}
+        }
+]
