@@ -23,6 +23,8 @@ The Fortify Elastic Test Tool works as "Bring Your Own License". To apply your l
 * **
 
 *   **asset.properties** file: detailing the metadata of the test asset (name, description, etc)
+*   **LICENSE** file: Use as desired, defines licensing terms not currently required for a fortify scan
+*   **README.md** file: Add specific information about this test case, such as deployment
 *   **config directory**:
     *   **fortify-config.properties** file: defining the required test asset properties (see properties)
 *   **scripts directory**:
@@ -30,11 +32,9 @@ The Fortify Elastic Test Tool works as "Bring Your Own License". To apply your l
         * **executable** script: main script that contains any user logic and defines fortify flow (Ex. run_fortify.sh in this case)
         *   **fortify.license** file: contains the Fortify License
     *   Optional:
-        *   **SCM** file: contains the json representing one or more repositories to checkout/clone
+        *   **repositories.json**: contains the json representing one or more repositories to checkout/clone
         *   **build** file: contains command line instructions for a fortify build (Ex. build)
         *   **scan** file: contains command line instructions for a fortify scan (Ex. scan)
-        *   **LICENSE** file: Use as desired, defines licensing terms not currently required for a fortify scan
-        *   **README.md** file: Add specific information about this test case, such as deployment 
 *   **media directory**: _(optional)_
     * **source directory**: directory containing source code. Must be provided if scan is not SCM based.
     * **rules directory**: directory containing custom rules or rule sets.
