@@ -44,7 +44,7 @@ The Fortify Elastic Test Tool works as "Bring Your Own License". To apply your l
 
 ## fortify-config.properties:
 
-*   **fortify.executable**: _(required)_ the name of the executable file in the scripts directory. This file contains the necessary logic and flow to run a fortify scan
+*   **fortify.executable**: _(required)_ the name of the executable file in the scripts directory. This file contains the necessary logic and flow to run a fortify scan. (See HPE_SCA_Guide_16.10.pdf for more info on how to configure a fortify scan)
 *   **fortify.scm.file**: _(optional)_ the file detailing the SCM repositor(y/ies) to be accessed. If not provided, the scan is assumed to be a local source code scan and the test asset's media directory must contain source code.
 *   **fortify.build.file**: _(optional)_ the name of the build file in the scripts directory, if provided 
 *   **fortify.scan.file**: _(optional)_ the name of the scan file in the scripts directory, if provided.
