@@ -38,6 +38,7 @@ The Fortify Elastic Test Tool works as "Bring Your Own License". To apply your l
 *   **media directory**: _(optional)_
     * **source directory**: directory containing source code. Must be provided if scan is not SCM based.
     * **rules directory**: directory containing custom rules or rule sets.
+
 # Properties
 * **
 
