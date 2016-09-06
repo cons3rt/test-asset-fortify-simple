@@ -54,6 +54,7 @@ The Fortify Elastic Test Tool works as "Bring Your Own License". To apply your l
     *   **fortify.source.path**: the path to the source code to be scanned, this overrides the path in fortify-config.properties if provided.
     *   **fortify.build.id**: the id to use for the fortify build/scan. **Default**: Fortify-Scan
     *   **fortify.debug**: whether or not to include the debug flag. **Default**: false
+
 ## SCM JSON File:
 * **
 If a fortify scan is to access one or more remote SCM repositories for source code checkout, then a **fortify.scm.file** property must be provided in the **fortify-config.properties**, and the appropriately named file must exist in the **scripts directory**.
