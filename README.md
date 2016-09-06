@@ -23,8 +23,8 @@ The Fortify Elastic Test Tool works as "Bring Your Own License". To apply your l
 * **
 
 *   **asset.properties** file: detailing the metadata of the test asset (name, description, etc)
-*   **LICENSE** file: Use as desired, defines licensing terms not currently required for a fortify scan
-*   **README.md** file: Add specific information about this test case, such as deployment
+*   **LICENSE** file: Use as desired, defines licensing terms
+*   **README.md** file: Add specific information about this test case, such as custom deployment properties, etc.
 *   **config directory**:
     *   **fortify-config.properties** file: defining the required test asset properties (see properties)
 *   **scripts directory**:
