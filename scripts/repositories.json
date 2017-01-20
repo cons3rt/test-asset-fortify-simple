@@ -1,17 +1,22 @@
 [
-	{
-		"type": "GIT",
-		"url": "ssh://git@userinfo.git"
-	},
-	{
-    	"type": "SVN",
-        "url": "https://userinfo.git",
-		"branch": "master",
-		"credentials":
-		{
-			"type": "USER_PASS",
-			"username": "foo",
-			"password": "bar"
-		}
-	}
+  {
+    "type": "GIT",
+    "url": "git@github.com:cons3rt/test-asset-fortify-simple.git",
+    "description": ""
+  },
+  {
+    "type":"SVN",
+    "url":"https://svn.forge.mil/svn/repos/cons3rt-deploying-cons3rt/trunk"
+  },
+  {
+    "type": "SVN",
+    "url": "https://my.subversion.server.com/svn/repos/my-repo",
+    "branch": "master",
+    "credentials":
+    {
+      "type": "USER_PASS",
+      "username": "mySubversionUsername",
+      "password": "mySubversionPassword"
+    }
+  }
 ]
