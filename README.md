@@ -1,23 +1,75 @@
-# Fortify Simple Test Asset
+# CONS3RT Fortify Elastic Test Tool (ETT) Sample Scan
 * **
 ## Usage:
-In order to begin scanning with Fortify, you must first create a **Fortify Test Asset** just like this one. Then you can begin customizing the source code, license, and even the scan itself.
+In order to begin scanning with Fortify, you must first create a **Fortify Test Asset** just like this one. Then 
+you can begin customizing the source code, license, and even the scan itself.
 
-## Licensing:
+## Bring your own License
 
-The Fortify Elastic Test Tool works as "Bring Your Own License". To apply your license in this sample asset, simply replace the "scripts/fortify.license" file with your Fortify License.
+The Fortify ETT requires you to "Bring Your Own License". To apply your license in this sample asset, replace 
+the `scripts/fortify.license` file with your Fortify License.
 
-## Customize your Own
+## Fortify Rules Version
 
-1.  git clone: https://github.com/cons3rt/test-asset-fortify-simple.git
-2.  Replace the scripts/fortify.license file with _**your Fortify License file**_ 
-3.  Edit the asset.properties file as needed (e.g. name, description, etc.)
-4.  If the scan is to be SCM based: add the required property to fortify-config.properties and the corresponding repositories file to the scripts directory (see below)
-5.  Otherwise: add the desired source code to the media/source directory (see below)
-6.  In the scripts directory, edit the **build** and **scan** files (if included) or edit the **run_fortify.sh** script directly to customize the type of scan to be run.
-7.  Upload your new test asset to CONS3RT
-8.  Add the new test asset to a deployment or create a test-only deployment and launch
-9.  View your results!
+CONS3RT updates the Fortify Secure Coding Rules rules upon initial deployment of your Fortify Scanner Elastic Test 
+Tool (ETT).  The rule set can also be updated before each scan by leveraging the sample `scipts/run_fortify.sh` in 
+your test asset.  This script contains a method to run `fortifyupdate` prior to running your scan.  The test results
+zip file will also contain a log listing the specific versions of the Fortify Secure Coding Rules used in the scan:
+
+    logs/Fortify-Installed-Rules-TIMESTAMP.log
+
+## Use with DI2E and Forge.mil
+
+* [Documentation on integrations with DI2E and Forge.mil](https://kb.cons3rt.com/articles/source-code-accounts/)
+
+## The Fortify Scanner VM
+
+CONS3RT deploys a VM with 8 CPU and 32 GB RAM.  This sample runs Fortify with the `-autoheap` memory option which
+works in most cases.  If your scan runs out of memory, you can set the following Custom Property to adjust the 
+Fortify memory allocation, the following show the recommended maximum:
+
+    FORTIFY_MEMORY_IN_MB=28672
+
+* [Click here](https://kb.cons3rt.com/articles/custom-properties-2) for how to set Custom Properties in your 
+Deployments.
+
+## Use this Sample Asset Out-Of-The-Box
+
+1. git clone https://github.com/cons3rt/test-asset-fortify-simple.git
+1. Replace the scripts/fortify.license file with _**your Fortify License file**_ 
+1. Create a zip file of the `test-asset-fortify-simple` directory
+
+## Customize your Own Fortify Scan
+
+1. git clone https://github.com/cons3rt/test-asset-fortify-simple.git
+1. Replace the scripts/fortify.license file with _**your Fortify License file**_ 
+1. Edit the asset.properties file as needed (e.g. name, description, etc.)
+1. If you have a Source Code repository to clone/checkout, update the `repositories.json` file with your source code 
+repo and credential information.  See samples in the `scripts/repositories-samples.json` file
+repositories file to the scripts directory (see below)
+1. To manually upload your source code, add your unpacked source code to the `media/source` directory
+1. (Optional) Edit the **run_fortify.sh** scripts as desired 
+1. Create a zip file of the `test-asset-fortify-simple` directory
+
+## Launch your Scan and Get Results!
+
+1. Import the asset zip file test asset to CONS3RT, [click here for instructions](https://kb.cons3rt.com/articles/import-a-test-asset)
+1. Create a Deployment containing your Test Asset, [click here for instructions](https://kb.cons3rt.com/kb/deployments/creating-a-deployment)
+1. Launch your Deployment to run your scan!  [click here for instructions](https://kb.cons3rt.com/articles/launching-a-deployment)
+1. View your results! On the Run page, click on the **Test Results** tab, and download your results files!
+
+## Retest to get new Results!
+
+1. From the main navigation menu, select **Runs**, and click on your Fortify Scan ETT Run
+1. To re-run your Fortify Scan, click the **Retest** button at the top-right
+1. When the scan is complete, click on the **Results** tab and download a new set of results!
+
+> Notes on Re-Running Scans
+
+* The latest code will by dynamically updated when retesting (git pull or svn update).  
+* For static source code contained in the test asset, you can update your asset with a new snapshot of the source code
+* If you released your Fortify Scanner VM, you may also click the **Rerun** button to launch a new scanner and 
+get a new set of scan results.
 
 # Structure:
 * **
@@ -52,6 +104,7 @@ The Fortify Elastic Test Tool works as "Bring Your Own License". To apply your l
 
 ## Deployment Properties:
 *   **Optional:**
+    *   **FORTIFY_MEMORY_IN_MB**: System memory in metabytes to allocate to the Fortify application for build and scan actions
     *   **fortify.source.path**: the path to the source code to be scanned, this overrides the path in fortify-config.properties if provided.
     *   **fortify.build.id**: the id to use for the fortify build/scan. **Default**: Fortify-Scan
     *   **fortify.debug**: whether or not to include the debug flag. **Default**: false
