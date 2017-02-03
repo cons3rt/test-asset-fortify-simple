@@ -1,6 +1,44 @@
 #!/bin/bash
 
-# Get the current timestamp and append to logfile name
+# Sample run_fortify.sh script
+#
+# Provided by: Jackpine Technologies Corp.
+#
+# Authors: John Paulo (john.paulo@jackpinetech.com) and Joe Yennaco
+#          (joe.yennaco@jackpinetech.com)
+#
+# Usage: This script executes your desired Fortify build, scan, and report
+#        generation actions.
+#
+# This script will be executed:
+#   1. After your Fortify Scanner initially deploys
+#   2. Each time you click the "Retest" button
+#
+# Feel free to use as is!  It should work in most cases.  If you would like to
+# customize your scan output format, results, or build commands, you can edit
+# the commands in the run_fortify function below.
+#
+# The following variables are exported for use in the this script:
+#
+# reportDir: Path to the report directory, included in the test results
+# logDir: Path to the log directory, included in the test results
+# combinedPropsFile: File that contains both deployment properties, and test asset properties
+# buildFile: The build file (optional)
+# scanFile: The scan file (optional)
+# buildId: The build id
+# fortifyDebug: Either "" or -debug, if fortify debug is set to true or false
+# sourceDir: Path to the parent source code directory
+# sourceCodePath: Path to source code. Unless fortify.source.path was provided, will be the same as "sourceDir"
+# localRulesDirectory: Path to the test asset's media/rules directory (empty if not included in test asset)
+# fortifyHome: Location of the fortify install directory, all fortify utilities reside within
+# sourceanalyzer: Path to fortify sourceanalyzer executable
+# ReportGenerator: Path to fortify report generator executable
+# BIRTReportGenerator: Path to the fortify BIRT report generator executable
+# FPRUtility: Path to the fortify FPRUtility executable
+# fortifyupdate: Path to the fortify update utility
+#
+
+# Configure log files
 source /etc/bashrc
 TIMESTAMP=$(date "+%Y-%m-%d-%H%M")
 logTag="run_fortify_script_output"
