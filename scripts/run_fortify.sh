@@ -126,8 +126,7 @@ function get_fortify_memory_allocation() {
 }
 
 function run_and_check_status() {
-    local command="$@"
-    ${command}
+    "$@"
     local status=$?
     if [ ${status} -ne 0 ] ; then
         logErr "Error executing: ${command}, exited with code: ${status}"
@@ -183,6 +182,10 @@ function run_fortify() {
     logInfo "Environment variables:\n${envVars}"
     echo ${envVars} >> ${logDir}environment_out.log
 
+    #################################################
+    #                   Build
+    #################################################
+
     # Begin build process
     logInfo "Beginning the Fortify build of ${sourceDir}"
     run_and_check_status "${sourceanalyzer}" -clean
@@ -196,13 +199,86 @@ function run_fortify() {
     logInfo "Listing build files to ${logDir}${buildId}-showfiles.log..."
     run_and_check_status "${sourceanalyzer}" -b "${buildId}" -show-files -logfile "${logDir}${buildId}-showfiles.log" "${fortifyDebug}"
 
+    #################################################
+    #                   Scan
+    #################################################
+
     # Perform scan
     logInfo "Starting the Fortify scan..."
-    run_and_check_status "${sourceanalyzer}" -b "${buildId}" -scan -f "${reportDir}${buildId}-scan.fpr" -logfile "${logDir}${buildId}-scan.log" "${fortifyDebug}" "${fortifyMemoryAllocation}"
+    scanReport="${reportDir}${buildId}-scan.fpr"
+    run_and_check_status "${sourceanalyzer}" -b "${buildId}" -scan -f "${scanReport}" -logfile "${logDir}${buildId}-scan.log" "${fortifyDebug}" "${fortifyMemoryAllocation}"
 
+    #################################################
+    #             Report Generation
+    #################################################
+    #
+    # See the Fortify SCA documentation for a full set of options showing how to
+    #
+    #
     # Generate report from scan results
-    logInfo "Generating report: ${reportDir}${buildId}-results.pdf..."
-    run_and_check_status "${ReportGenerator}" -format "pdf" -f "${reportDir}${buildId}-results.pdf" -source "${reportDir}${buildId}-scan.fpr"
+    #
+    # See below for commonly used report generation options, see the
+    # HP Fortify SCA documentation for the full set:
+    #
+
+    # Sample legacy report output formats
+    # -----------------------------------
+    #
+    # -format <format>, options: PDF, RTF, XML
+    #
+    # -template <template_name>, options: "DeveloperWorkbook.xml", "OWASP2004.xml", "OWASP2007.xml", "OWASP2010.xml",
+    #                                     "OWASP2013.xml", "ScanReport.xml"
+    #
+    # -showSuppressed, Include issues that have been marked as suppressed.
+    #
+    # -showRemoved, Include issues that have been marked as removed by SCA.
+    #
+    # -showHidden, Include issues that have been marked as hidden.
+    #
+    # -verbose, Displays status messages to the console.
+    #
+    owaspReport="${reportDir}${buildId}-OWASP-results.pdf"
+    logInfo "Generating default report: ${owaspReport}..."
+    run_and_check_status "${ReportGenerator}" -format "pdf" -f "${owaspReport}" -source "${scanReport}"
+
+    developerWorkbook="${reportDir}${buildId}-DeveloperWorkbook-results.pdf"
+    logInfo "Generating developer workbook: ${developerWorkbook}..."
+    run_and_check_status "${ReportGenerator}" -template "DeveloperWorkbook.xml" -format "pdf" -f "${developerWorkbook}" -source "${scanReport}"
+
+    # Sample BIRT Report formatted output
+    # -----------------------------------
+    #
+    # -template <template name>, options: "Developer Workbook", "DISA STIG", "CWE/SANS Top 25",
+    #                                     "FISMA Compliance", "OWASP Mobile Top 10", "OWASP Top 10",
+    #                                      and "PCI DSS Compliance".
+    #
+    # -format <format>, options: PDF, DOC, HTML, and XLS
+    #
+    # --Version <version>, options:
+    #      [CWE/SANS Top 25]: "2011 CWE/SANS Top 25", "2010 CWE/SANS Top 25", and "2009 CWE/SANS Top 25"
+    #      [DISA STIG]: "DISA STIG 3.9", "DISA STIG 3.7", "DISA STIG 3.5", "DISA STIG 3.4", and "DISA STIG 3"
+    #      [OWASP Top 10]: "OWASP Top 10 2013", "OWASP Top 10 2010", "OWASP Top 10 2007", and "OWASP Top 10 2004"
+    #      [PCI DSS Compliance]: "3.0 Compliance" and "2.0 Compliance"
+    #
+    # -showSuppressed, Include issues that have been marked as suppressed.
+    #
+    # -showRemoved, Include issues that have been marked as removed.
+    #
+    # -showHidden, Include issues that have been marked as hidden.
+    #
+    # --IncludeDescOfKeyTerminology, Include the "Description of Key Terminology" section in the report.
+    #
+    # --IncludeHPEnterpriseSecurity, Include the "About HPE Security" section in the report.
+    #
+    # --SecurityIssueDetails, Provide detailed descriptions of reported issues. This option is not available
+    #                         for the Developer Workbook template.
+    #
+    # --UseFortifyPriorityOrder, Use Fortify Priority instead of folder names to categorize issues. This option
+    #                            is not available for the Developer Workbook and PCI Compliance templates.
+    #
+    birtReport="${reportDir}${buildId}-BirtReport-DevWorkbook-results.pdf"
+    logInfo "Generating BIRT Report developer workbook: ${birtReport}..."
+    run_and_check_status "${BIRTReportGenerator}" -format PDF -output "${birtReport}" -source "${scanReport}" -template "Developer Workbook"
 
     # Check the results of commands from this script, return error if an error is found
     for resultCheck in "${resultSet[@]}" ; do

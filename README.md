@@ -51,6 +51,12 @@ repositories file to the scripts directory (see below)
 1. (Optional) Edit the **run_fortify.sh** scripts as desired 
 1. Create a zip file of the `test-asset-fortify-simple` directory
 
+## Customize your Fortify Reports
+
+See the sample [run_fortify.sh](https://github.com/cons3rt/test-asset-fortify-simple/blob/master/scripts/run_fortify.sh) 
+script and scroll down to the report generation section.  In this sample there are 3 different reports generated.  Use 
+the options in the comments section to customize your report output.
+
 ## Launch your Scan and Get Results!
 
 1. Import the asset zip file test asset to CONS3RT, [click here for instructions](https://kb.cons3rt.com/articles/import-a-test-asset)
@@ -109,7 +115,7 @@ get a new set of scan results.
     *   **fortify.build.id**: the id to use for the fortify build/scan. **Default**: Fortify-Scan
     *   **fortify.debug**: whether or not to include the debug flag. **Default**: false
 
-## SCM JSON File:
+## Using the repositories.json file:
 * **
 If a fortify scan is to access one or more remote SCM repositories for source code checkout, then a **fortify.scm.file** property must be provided in the **fortify-config.properties**, and the appropriately named file must exist in the **scripts directory**.
 
