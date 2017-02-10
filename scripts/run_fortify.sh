@@ -129,9 +129,9 @@ function run_and_check_status() {
     "$@"
     local status=$?
     if [ ${status} -ne 0 ] ; then
-        logErr "Error executing: ${@}, exited with code: ${status}"
+        logErr "Error executing: \"$@\", exited with code: ${status}"
     else
-        logInfo "${@} executed successfully and exited with code: ${status}"
+        logInfo "\"$@\" executed successfully and exited with code: ${status}"
     fi
     resultSet+=("${status}")
     return ${status}
