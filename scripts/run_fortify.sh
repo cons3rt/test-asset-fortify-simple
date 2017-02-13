@@ -121,7 +121,7 @@ function get_fortify_memory_allocation() {
         fortifyMemoryAllocation="${defaultFortifyMemoryAllocation}"
     else
         logInfo "Found custom property set for FORTIFY_MEMORY_IN_MB set to: ${FORTIFY_MEMORY_IN_MB}"
-        fortifyMemoryAllocation="-Xmx ${FORTIFY_MEMORY_IN_MB}M"
+        fortifyMemoryAllocation="-Xmx${FORTIFY_MEMORY_IN_MB}M"
     fi
 }
 
