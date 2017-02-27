@@ -40,6 +40,8 @@
 
 # Configure log files
 source /etc/bashrc
+source /etc/profile.d/scm.sh
+source /etc/profile.d/mvn.sh
 TIMESTAMP=$(date "+%Y-%m-%d-%H%M")
 logTag="run_fortify_script_output"
 fortifyLogDir="/home/cons3rt/fortify/logs"
@@ -160,6 +162,47 @@ function update_fortify_definitions() {
     echo "-----------------------------" >> ${fortifyUpdateLogFile}
     echo "Listing installed external meta data:" >> ${fortifyUpdateLogFile}
     /usr/local/bin/fortifyupdate -showInstalledExternalMetadata >> ${fortifyUpdateLogFile} 2>&1
+}
+
+function install_npm_packages() {
+
+    # Put the name of the source code repo that need npm packages
+    repoName="this-code-uses-node"
+    repoDir=$(ls ${SCM_CODE_DIR} | grep ${repoName})
+    repoDirPath="${SCM_CODE_DIR}/${repoDir}"
+
+    if [ ! -d ${repoDirPath} ] ; then
+        echo "Repo directory not found: ${repoDirpath}"
+        return 1
+    fi
+
+    cd ${repoDirPath}
+
+    # Install packages with npm
+    # npm install to-markdown
+
+    return $?
+}
+
+function run_maven_build() {
+
+    # Put the name of one or more source code repos that need a mvn build
+    repoName="maven-build-repo"
+    repoDir=$(ls ${SCM_CODE_DIR} | grep ${repoName})
+    repoDirPath="${SCM_CODE_DIR}/${repoDir}"
+
+    if [ ! -d ${repoDirPath} ] ; then
+        echo "Repo directory not found: ${repoDirpath}"
+        return 1
+    fi
+
+    cd ${repoDirPath}
+
+    mvn --version
+
+    # Run the maven build
+    # mvn clean install
+    return $?
 }
 
 function run_fortify() {
@@ -289,6 +332,26 @@ function run_fortify() {
     done
     logInfo "Successfully completed the Fortify Scan!"
 }
+
+#### Run Node NPM package installs ####
+
+# Uncomment the following if you configured the "install_npm_packages" function above
+
+# install_npm_packages >> "${logDir}/npm.log" 2>&1
+# if [ $? -ne 0 ] ; then
+#     echo "There was a problem installing Node.js packages using npm"
+#     exit 1
+# fi
+
+#### Run a Maven Build ####
+
+# Uncomment the following if you configured the "run_maven_build" function above
+
+# run_maven_build >> "${logDir}/mvn.log" 2>&1
+# if [ $? -ne 0 ] ; then
+#     echo "There was a problem running mvn"
+#     exit 2
+# fi
 
 run_fortify > "${reportDir}${buildId}-run.log"
 exit $?
