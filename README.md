@@ -1,4 +1,9 @@
 # CONS3RT Fortify Elastic Test Tool (ETT) Sample Scan
+
+# DEPRECATED
+
+## This is no longer an asset type for CONS3RT
+
 * **
 ## Usage:
 In order to begin scanning with Fortify, you must first create a **Fortify Test Asset** just like this one. Then 
